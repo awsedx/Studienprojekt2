@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <router-link v-for="route in routes" :to="route.link"
-      :class="$router.currentRoute.value.path === route.link ? 'navLink navLinkActive' : 'navLink'">{{ route.text }}
+      :class="$router.currentRoute.value.path.includes(route.link) ? 'navLink navLinkActive' : 'navLink'">{{ route.text }}
     </router-link>
   </div>
   <div class="routerView">
@@ -15,7 +15,7 @@ export default {
     return {
       routes: [
         {
-          link: "/",
+          link: "/home",
           text: "Home"
         },
         {

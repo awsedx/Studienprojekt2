@@ -1,55 +1,84 @@
 <template>
-  <div>
-    <h1>Produkte</h1>
-    <div class="product-grid">
-      <div class="product" v-for="product in products" :key="product.id">
-        <router-link :to="{ name: 'ProductDetail', params: { slug: product.slug } }">
-          <h2>{{ product.title }}</h2>
-          <p>{{ product.get_display_price }}€</p>
-        </router-link>
-      </div>
-    </div>
+  <h1>Product</h1>
+  <div class="devStuff">
+    <input type="text" placeholder="slug goes here" v-model="product">
+    <button @click="fetchItem(product)">Fetch item</button>
+  </div>
+  <div v-if="fetchedItem">
+    <h4 class="grey">Title of Item:</h4>
+    <h3 class="black">{{ title }}</h3>
+    <h4 class="grey">Description</h4>
+    <h3 class="black">{{ description }}</h3>
+    <h4 class="grey">Price</h4>
+    <h3 class="black">{{ price }}</h3>
+  </div>
+  <div v-else>
+    <h3 style="color: red;">Item not Found</h3>
   </div>
 </template>
 
 <script>
-import { fetchProducts } from '../api';
-
+import { API_ADRESS } from "@/api.js";
+import axios from "axios";
 export default {
+  props: {
+    slug: {
+      type: String,
+      default: "",
+    }
+  },
   data() {
     return {
-      products: []
-    };
+      product: this.slug,
+      fetchedItem: false,
+      title: "",
+      description: "",
+      price: "",
+    }
   },
-  async created() {
-    try {
-      this.products = await fetchProducts();
-    } catch (error) {
-      console.error('Error fetching products:', error);
+  methods: {
+    fetchItem(slug) {
+      try {
+        axios.get(API_ADRESS + "product/" + slug + "/").then((response) => {
+          if (response.status === 200) {
+            this.fetchedItem = true;
+            console.log(response);
+            const data = response.data;
+            this.title = data.title;
+            this.description = data.description;
+            this.price = (data.price / 100).toFixed(2) + "€";
+          } else {
+            this.fetchedItem = false;
+            console.log(response);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+        this.fetchedItem = false;
+      }
+
+    }
+  },
+  mounted() {
+    if (this.slug !== "") {
+      this.fetchItem(this.slug);
     }
   }
 };
 </script>
 
 <style>
-.product-grid {
+.devStuff {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  flex-direction: row;
 }
-.product {
-  background-color: #ecf0f1;
-  border: 1px solid #bdc3c7;
-  border-radius: 10px;
-  padding: 20px;
-  width: 30%;
-  box-sizing: border-box;
+
+.grey {
+  color: grey;
+  margin: 0px;
 }
-.product h2 {
-  color: #2c3e50;
-}
-.product p {
-  color: #7f8c8d;
+
+.black {
+  margin-top: 0px;
 }
 </style>

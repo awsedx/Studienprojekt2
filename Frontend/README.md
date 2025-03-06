@@ -27,3 +27,6 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### change api adress
+go to src/api.js and change API_ADRESS' value

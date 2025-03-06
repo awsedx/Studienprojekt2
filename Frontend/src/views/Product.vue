@@ -3,8 +3,10 @@
     <h1>Produkte</h1>
     <div class="product-grid">
       <div class="product" v-for="product in products" :key="product.id">
-        <h2>{{ product.title }}</h2>
-        <p>{{ product.get_display_price }}€</p>
+        <router-link :to="{ name: 'ProductDetail', params: { slug: product.slug } }">
+          <h2>{{ product.title }}</h2>
+          <p>{{ product.get_display_price }}€</p>
+        </router-link>
       </div>
     </div>
   </div>

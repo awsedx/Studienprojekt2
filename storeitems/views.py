@@ -1,4 +1,3 @@
-# filepath: /c:/Users/artus/OneDrive/Desktop/studieprojekt 2/Studienprojekt2/storeitems/views.py
 from rest_framework import generics
 from .models import Product
 from .serializers import ProductSerializer
@@ -11,6 +10,7 @@ from rest_framework import status
 class ProductDetailAPI(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    lookup_field = 'slug'
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)

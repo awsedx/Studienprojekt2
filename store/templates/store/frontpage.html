@@ -44,7 +44,7 @@
     <div class="product-grid">
         {% for product in products %}
             <div class="product">
-                <a href="{% url 'product_detail' product.slug %}">    
+                <a href="{% url 'product_detail_api' product.slug %}">    
                     <h2>{{ product.title }}</h2>
                     <p>{{ product.get_display_price }}€</p>
                 </a>

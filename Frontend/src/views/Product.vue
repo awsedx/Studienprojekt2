@@ -1,3 +1,4 @@
+<!-- filepath: c:\Users\artus\OneDrive\Desktop\studieprojekt 2\Stud2\Studienprojekt2\Frontend\src\views\Product.vue -->
 <template>
   <h1>Product</h1>
   <div class="devStuff">
@@ -11,6 +12,7 @@
     <h3 class="black">{{ description }}</h3>
     <h4 class="grey">Price</h4>
     <h3 class="black">{{ price }}</h3>
+    <button @click="addToCart">Zur Bestellung hinzufügen</button>
   </div>
   <div v-else>
     <h3 style="color: red;">Item not Found</h3>
@@ -20,6 +22,8 @@
 <script>
 import { API_ADRESS } from "@/api.js";
 import axios from "axios";
+import { mapActions } from 'vuex'
+
 export default {
   props: {
     slug: {
@@ -34,9 +38,11 @@ export default {
       title: "",
       description: "",
       price: "",
+      productId: null,
     }
   },
   methods: {
+    ...mapActions(['addToCart']),
     fetchItem(slug) {
       try {
         axios.get(API_ADRESS + "product/" + slug + "/").then((response) => {
@@ -47,6 +53,7 @@ export default {
             this.title = data.title;
             this.description = data.description;
             this.price = (data.price / 100).toFixed(2) + "€";
+            this.productId = data.id;
           } else {
             this.fetchedItem = false;
             console.log(response);
@@ -56,7 +63,14 @@ export default {
         console.log(error);
         this.fetchedItem = false;
       }
-
+    },
+    async addToCart() {
+      try {
+        await this.addToCart({ product_id: this.productId, quantity: 1 })
+        console.log('Product added to cart')
+      } catch (error) {
+        console.error('Adding to cart failed:', error.response.data)
+      }
     }
   },
   mounted() {

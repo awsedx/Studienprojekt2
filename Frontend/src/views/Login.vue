@@ -23,20 +23,12 @@ export default {
         }
     },
     methods: {
-        func1(){
-            console.log(`
-            gLoggedIn: ${this.gLoggedIn}
-            gAccess: ${this.gAccess}
-            gRefresh: ${this.gRefresh}
-            `)
-        },
         submitLogin(un, pw) {
             const catchallerrmsg = "An unexpeceted error occured. Please try Again.";
             axios.post(`${API_AUTH}login/`, {
                 "username": un,
                 "password": pw
             }).then((response) => {
-                // console.log(response);
                 if (!response.status) {
                     this.errmsg = catchallerrmsg;
                     return

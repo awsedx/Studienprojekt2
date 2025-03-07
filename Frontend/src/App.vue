@@ -1,8 +1,20 @@
 <template>
   <div class="navbar">
-    <router-link v-for="route in routes" :to="route.link"
-      :class="$router.currentRoute.value.path.includes(route.link) ? 'navLink navLinkActive' : 'navLink'">{{ route.text }}
-    </router-link>
+    <div class="routes">
+      <router-link v-for="route in routes" :to="route.link"
+        :class="$router.currentRoute.value.path.includes(route.link) ? 'navLink navLinkActive' : 'navLink'">{{
+          route.text }}
+      </router-link>
+    </div>
+    <div class="login" v-if=loggedIn>
+      <p class="navLink">Welcome, {{ curUserName }}</p>
+      <button class="logInOutButton" @click="logOut">Log Out</button>
+    </div>
+    <div class="login" v-else>
+      <p class="navLink">not currently logged in</p>
+      <router-link :to="'/login'" class="logInOutButton">Log In</router-link>
+    </div>
+
   </div>
   <div class="routerView">
     <router-view />
@@ -10,6 +22,8 @@
 </template>
 
 <script>
+import { authData } from './auth';
+
 export default {
   data() {
     return {
@@ -30,14 +44,31 @@ export default {
           link: "/basket",
           text: "Basket"
         },
-      ]
+        {
+          link: "/test",
+          text: "Test"
+        },
+      ],
     }
   },
   methods: {
     println(message) {
       console.log(message);
+    },
+    logOut(){
+      authData.access="";
+      authData.refresh="";
+      authData.loggedIn=false;
+    },
+  },
+  computed: {
+    curUserName(){
+      return "";
+    },
+    loggedIn(){
+      return authData.loggedIn;
     }
-  }
+  },
 }
 </script>
 
@@ -49,12 +80,24 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: left;
+  justify-content: space-between;
   margin: 0px;
   /* position: fixed; */
   left: 0px;
   top: 0px;
+}
+
+.routes {
+  display: flex;
+  justify-content: left;
   padding: 0.5rem;
+}
+
+.login {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
 }
 
 .navLink {
@@ -74,5 +117,23 @@ export default {
 
 .routerView {
   margin: 1rem 1rem 0rem;
+}
+
+.logInOutButton {
+  color: white;
+  background-color: rgb(27, 177, 0);
+  border-radius: 10px;
+  height: fit-content;
+  margin: 5px;
+  margin-right: 10px;
+  font-size:medium;
+  border:solid white 1px;
+  padding: 5px;
+  text-decoration: none;
+  font-size: large;
+}
+.logInOutButton:active{
+  border: solid gray 1px;
+  background-color: rgb(18, 120, 0);
 }
 </style>

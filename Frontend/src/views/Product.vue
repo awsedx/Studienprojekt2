@@ -4,6 +4,7 @@
     <input type="text" placeholder="slug goes here" v-model="product">
     <button @click="fetchItem(product)">Fetch item</button>
   </div>
+  <br>
   <div v-if="fetchedItem">
     <h4 class="grey">Title of Item:</h4>
     <h3 class="black">{{ title }}</h3>

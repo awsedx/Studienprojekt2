@@ -45,5 +45,8 @@ export default {
     flex-direction: column;
     align-items: left;
     padding-left: 1rem;
+    border-radius: 20px;
+    box-shadow: 0px 0px 0.5rem black;
+    width: 20%;
 }
 </style>

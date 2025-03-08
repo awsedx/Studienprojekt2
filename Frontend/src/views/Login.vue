@@ -29,6 +29,7 @@ export default {
                 "username": un,
                 "password": pw
             }).then((response) => {
+                console.log(response);
                 if (!response.status) {
                     this.errmsg = catchallerrmsg;
                     return

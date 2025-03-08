@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { API_AUTH } from './api';
 import { authData } from './auth';
 
 export default {
@@ -55,17 +57,34 @@ export default {
     println(message) {
       console.log(message);
     },
-    logOut(){
-      authData.access="";
-      authData.refresh="";
-      authData.loggedIn=false;
+    logOut() {
+      authData.access = "";
+      authData.refresh = "";
+      authData.loggedIn = false;
     },
   },
   computed: {
-    curUserName(){
+    curUserName(token) {
+      if (token && token !== "") {
+        axios.get(`${API_AUTH}user`, {
+          params: {
+            "user": authData.access,
+          },
+          data: {
+            "user": authData.access,
+          },
+          headers:{
+            Authorization: `Bearer ${authData.access}`
+          }
+        }).then((response) => {
+          console.log(response);
+        }).catch((error) => {
+          console.log(error)
+        });
+      }
       return "";
     },
-    loggedIn(){
+    loggedIn() {
       return authData.loggedIn;
     }
   },
@@ -126,13 +145,14 @@ export default {
   height: fit-content;
   margin: 5px;
   margin-right: 10px;
-  font-size:medium;
-  border:solid white 1px;
+  font-size: medium;
+  border: solid white 1px;
   padding: 5px;
   text-decoration: none;
   font-size: large;
 }
-.logInOutButton:active{
+
+.logInOutButton:active {
   border: solid gray 1px;
   background-color: rgb(18, 120, 0);
 }

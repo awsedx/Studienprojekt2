@@ -2,18 +2,18 @@
     <h1>Item Catalog</h1>
     <button @click="fetchData">reload data</button>
     <p id="errorText"></p>
-    <catalogItem v-if="fetchComplete" v-for="item in items" :title="item.title" :description="item.description"
+    <Item v-if="fetchComplete" v-for="item in items" :title="item.title" :description="item.description"
         :slug="item.slug" :price="item.price" />
     <p v-else>Click the Button to Fetch Data</p>
 </template>
 
 <script>
 import { API_ADRESS } from "@/api.js";
-import CatalogItem from '@/components/CatalogItem.vue';
+import Item from '@/components/Item.vue';
 import axios from 'axios';
 export default {
     components: {
-        catalogItem: CatalogItem,
+        Item: Item,
     },
     data() {
         return {

@@ -1,15 +1,15 @@
 <template>
-    <div class="itemDiv">
-        <router-link :to="'/product/'+slug">
-            <h3>{{ title }}</h3>
-            <h4>{{ (price / 100).toFixed(2)+"€" }}</h4>
-            <p> {{ description }}</p>
-        </router-link>
-    </div>
+    <Item :title="title" :price="price" :description="description" :slug="slug"></Item>
+    <button @click="addToCart(productId)">Add to Cart</button>
 </template>
-
 <script>
+import axios from 'axios';
+import Item from './Item.vue';
+import { API_ADRESS } from '@/api';
 export default {
+    components: {
+        Item: Item,
+    },
     props: {
         title: {
             required: true,
@@ -27,26 +27,19 @@ export default {
         slug: {
             required: true,
             type: String
+        },
+        productId: {
+            required: true,
+            type: Number,
         }
     },
-    data() {
-        return {
+    methods:{
+        addToCart(id){
+            axios.post(`${API_ADRESS}cart/add/`, {
+                
+            })
         }
-    },
-
+    }
 }
 </script>
-
-<style>
-.itemDiv {
-    border: 2px grey solid;
-    margin: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    padding-left: 1rem;
-    border-radius: 20px;
-    box-shadow: 0px 0px 0.5rem black;
-    width: 20%;
-}
-</style>
+<style></style>

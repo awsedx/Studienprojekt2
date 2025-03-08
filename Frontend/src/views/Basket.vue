@@ -15,7 +15,8 @@
         :slug="item.slug" :price="item.price" :product-id="item.id" :amount="item.amount" />
       <p v-else>Click the Button to Fetch Data</p>
     </div>
-    <button @click="checkOut" class="checkOutButton">Checkout</button>
+    <button v-if="items.length>0" @click="checkOut" class="checkOutButton">Checkout</button>
+    <p v-else>No items in Basket</p>
   </div>
 
 </template>
@@ -78,16 +79,19 @@ export default {
     },
 
     checkOut() {
-      axios.post(`${API_ADRESS}order/create/`, {
-        headers: {
-          Authorization: `Bearer ${authData.access}`
-        },
-      }).then((response) => {
+      axios.post(`${API_ADRESS}order/create/`, {},
+        {
+          headers: {
+            Authorization: `Bearer ${authData.access}`
+          }
+        }
+      ).then((response) => {
         console.log(response);
-        alert("checkout successful!")
+        alert("checkout successful!");
+        this.$router.push("/catalog");
       }).catch((error) => {
         console.log(error);
-        alert("error while checking out!")
+        alert("error while checking out!");
       });
     },
   },

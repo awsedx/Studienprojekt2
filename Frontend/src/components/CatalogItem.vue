@@ -43,19 +43,12 @@ export default {
                 return;
             }
             axios.post(`${API_ADRESS}cart/add/`, {
+                "quantity": 1,
+                "product_id": id,
+            }, {
                 headers: {
                     Authorization: `Bearer ${authData.access}`
-                },
-                data: {
-                    "quantity": 1,
-                    "product_id": id,
-                },
-                // params: {
-                //     "quantity": 1,
-                //     "product_id": id,
-                // },
-                // quantity: 1,
-                // product_id: id,
+                }
             }).then((response) => {
                 console.log(response);
                 alert(`succesfully added 1 ${this.title} to the shopping basket!`)
@@ -76,10 +69,12 @@ export default {
     padding: 5px;
     /* margin-left: 1rem; */
 }
+
 .add2cartbutton:hover {
     background-color: rgb(64, 158, 252);
     cursor: pointer;
 }
+
 .add2cartbutton:active {
     background-color: dodgerblue;
 }

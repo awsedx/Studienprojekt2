@@ -23,8 +23,11 @@ def get_product(request):
 @api_view(['POST'])
 def add_to_cart(request):
     user = request.user
+
+    print(f"User: {user}, Authenticated: {user.is_authenticated}")  # Debugging
+
     if not user.is_authenticated:
-        return Response({'status': 'error', 'message': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+       return Response({'status': 'error', 'message': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
     product_id = request.data.get('product_id')
     quantity = request.data.get('quantity')
     product = Product.objects.get(id=product_id)
@@ -37,6 +40,9 @@ def add_to_cart(request):
 @api_view(['GET'])
 def get_cart(request):
     user = request.user
+
+    print(f"User: {user}, Authenticated: {user.is_authenticated}")  # Debugging
+
     if not user.is_authenticated:
         return Response({'status': 'error', 'message': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
     cart_items = Cart.objects.filter(user=user)
@@ -46,10 +52,13 @@ def get_cart(request):
 @api_view(['POST'])
 def create_order(request):
     user = request.user
+
+    print(f"User: {user}, Authenticated: {user.is_authenticated}")  # Debugging
+
+
     if not user.is_authenticated:
         return Response({'status': 'error', 'message': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
-    cart = Cart.objects.get(user=user)
-    cart_items = cart.items.all()
+    cart_items = Cart.objects.filter(user=user)
     if not cart_items.exists():
         return Response({'status': 'error', 'message': 'Cart is empty'}, status=status.HTTP_400_BAD_REQUEST)
     order = Order.objects.create(user=user)

@@ -1,0 +1,25 @@
+für cart add
+
+axios.post(`${API_ADRESS}cart/add/`, 
+    {
+        "quantity": 1,
+        "product_id": id
+    },  // <-- Das ist der eigentliche Request-Body (data)
+    {
+        headers: {  // <-- Die Header kommen in ein eigenes Objekt!
+            Authorization: `Bearer ${authData.access}`
+        }
+    }
+)
+.then(response => console.log(response.data))
+.catch(error => console.error(error.response));
+
+für create order
+axios.post(`${API_ADRESS}order/create/`, 
+    {},  // Falls keine Daten im Body nötig sind, bleibt das leer
+    {
+        headers: {
+            Authorization: `Bearer ${authData.access}`
+        }
+    }
+).then((response) => {

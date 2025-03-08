@@ -7,7 +7,7 @@
       </router-link>
     </div>
     <div class="login" v-if=loggedIn>
-      <p class="navLink">Welcome, {{ curUserName }}</p>
+      <p class="navLink">Welcome, {{ userName }}</p>
       <button class="logInOutButton" @click="logOut">Log Out</button>
     </div>
     <div class="login" v-else>
@@ -51,6 +51,7 @@ export default {
           text: "Test"
         },
       ],
+      userName: "",
     }
   },
   methods: {
@@ -64,30 +65,26 @@ export default {
     },
   },
   computed: {
-    curUserName(token) {
-      if (token && token !== "") {
-        axios.get(`${API_AUTH}user`, {
-          params: {
-            "user": authData.access,
-          },
-          data: {
-            "user": authData.access,
-          },
-          headers:{
-            Authorization: `Bearer ${authData.access}`
-          }
-        }).then((response) => {
-          console.log(response);
-        }).catch((error) => {
-          console.log(error)
-        });
-      }
-      return "";
-    },
     loggedIn() {
       return authData.loggedIn;
     }
   },
+  watch:{
+    loggedIn(){
+      if (this.loggedIn) {
+        axios.get(`${API_AUTH}user/`, {
+          headers:{
+            Authorization: `Bearer ${authData.access}`
+          },
+        }).then((response) => {
+          console.log(response);
+          this.userName = response.data.username;
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
+    }
+  }
 }
 </script>
 

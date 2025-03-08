@@ -4,15 +4,13 @@
     <button @click="func3">increment</button>
 </template>
 <script>
+import { API_ADRESS } from '@/api';
 import { authData } from '@/auth';
+import axios from 'axios';
 export default {
     methods:{
         func1(){
-            console.log(`
-            gLoggedIn: ${this.gLoggedIn}
-            gAccess: ${this.gAccess}
-            gRefresh: ${this.gRefresh}
-            `)
+            axios.get(`${API_ADRESS}cart/`)
         },
     }
 }

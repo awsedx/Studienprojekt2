@@ -40,13 +40,13 @@ export default {
 <style>
 .itemDiv {
     border: 2px grey solid;
-    margin: 1rem;
     display: flex;
     flex-direction: column;
     align-items: left;
     padding-left: 1rem;
     border-radius: 20px;
     box-shadow: 0px 0px 0.5rem black;
-    width: 20%;
+    width: 20rem;
+    margin: 0.5rem;
 }
 </style>

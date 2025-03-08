@@ -1,19 +1,21 @@
 <template>
     <h1>Item Catalog</h1>
-    <button @click="fetchData">reload data</button>
+    <button @click="fetchData">fetch data</button>
     <p id="errorText"></p>
-    <Item v-if="fetchComplete" v-for="item in items" :title="item.title" :description="item.description"
-        :slug="item.slug" :price="item.price" />
-    <p v-else>Click the Button to Fetch Data</p>
+    <div class="catalogDiv">
+        <CatalogItem v-if="fetchComplete" v-for="item in items" :title="item.title" :description="item.description"
+            :slug="item.slug" :price="item.price" :product-id="item.id" />
+        <p v-else>Click the Button to Fetch Data</p>
+    </div>
 </template>
 
 <script>
 import { API_ADRESS } from "@/api.js";
-import Item from '@/components/Item.vue';
+import CatalogItem from "@/components/CatalogItem.vue";
 import axios from 'axios';
 export default {
     components: {
-        Item: Item,
+        CatalogItem: CatalogItem,
     },
     data() {
         return {
@@ -23,7 +25,7 @@ export default {
     },
     methods: {
         fetchData() {
-            axios.get(API_ADRESS+"products/").then((response) => {
+            axios.get(API_ADRESS + "products/").then((response) => {
                 console.log(response);
                 if (response.status === 200) {
                     document.getElementById("errorText").innerText = "";
@@ -34,6 +36,7 @@ export default {
                             slug: item.slug,
                             description: item.description,
                             price: item.price,
+                            id: item.id,
                         });
                     }
                     this.fetchComplete = true;
@@ -56,5 +59,13 @@ export default {
 <style>
 #errorText {
     color: red;
+}
+
+.catalogDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    flex-wrap: wrap;
+    width: 100%;
 }
 </style>

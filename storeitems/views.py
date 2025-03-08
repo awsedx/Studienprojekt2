@@ -42,7 +42,8 @@ def get_cart(request):
 @api_view(['POST'])
 def create_order(request):
     user = request.user
-    cart_items = Cart.objects.filter(user=user)
+    cart = Cart.objects.get(user=user)
+    cart_items = cart.items.all()
     if not cart_items.exists():
         return Response({'status': 'error', 'message': 'Cart is empty'}, status=status.HTTP_400_BAD_REQUEST)
     order = Order.objects.create(user=user)

@@ -35,6 +35,9 @@ export default {
                 "email": email
             }).then((response) => {
                 this.errmsg = "Account successfully created! Click above to login now!";
+                console.log(response);
+                alert("Account successfully created!");
+                this.$router.push("/login");
             }).catch((error) => {
                 try {
                     for (const property in error.response.data) {

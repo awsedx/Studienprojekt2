@@ -76,9 +76,17 @@ export default {
     padding: 5px;
     /* margin-left: 1rem; */
 }
+.add2cartbutton:hover {
+    background-color: rgb(64, 158, 252);
+    cursor: pointer;
+}
+.add2cartbutton:active {
+    background-color: dodgerblue;
+}
 
 .catalogitemContainer {
     /* border: 1px dashed grey; */
+    background-color: white;
     border-radius: 20px;
     padding: 1rem;
     margin-bottom: 2rem;

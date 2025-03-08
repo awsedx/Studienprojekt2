@@ -8,19 +8,28 @@
     :price="item.price" /> -->
   <!-- <p v-else>Click the Button to Fetch Data</p> -->
   <div v-if="loggedIn">
-    <BasketItem v-for="item in contents" :id="item.id" :amount="item.amount"></BasketItem>
+    <!-- <BasketItem v-for="item in contents" :id="item.id" :amount="item.amount"></BasketItem>
+    <button @click="checkOut" class="checkOutButton">Checkout</button> -->
+    <div class="catalogDiv">
+      <BasketItem v-if="fetchComplete" v-for="item in items" :title="item.title" :description="item.description"
+        :slug="item.slug" :price="item.price" :product-id="item.id" :amount="item.amount" />
+      <p v-else>Click the Button to Fetch Data</p>
+    </div>
     <button @click="checkOut" class="checkOutButton">Checkout</button>
   </div>
+
 </template>
 
 <script>
 import { API_ADRESS } from '@/api';
 import { authData } from '@/auth';
 import BasketItem from '@/components/BasketItem.vue';
+import CatalogItem from '@/components/CatalogItem.vue';
 import axios from 'axios';
 export default {
   components: {
     BasketItem: BasketItem,
+    CatalogItem: CatalogItem,
   },
   data() {
     return {
@@ -42,10 +51,16 @@ export default {
         },
       }).then((response) => {
         console.log(response);
+        this.items = [];
         for (const item of response.data) {
-          this.contents.push({
-            id: item.product,
+          console.log(item)
+          this.items.push({
             amount: item.quantity,
+            title: item.product.title,
+            slug: item.product.slug,
+            description: item.product.description,
+            price: item.product.price,
+            id: item.product.id,
           });
         }
         this.fetchComplete = true;
@@ -70,7 +85,7 @@ export default {
       }).then((response) => {
         console.log(response);
         alert("checkout successful!")
-      }).catch((error)=>{
+      }).catch((error) => {
         console.log(error);
         alert("error while checking out!")
       });
@@ -79,8 +94,8 @@ export default {
   mounted() {
     this.fetchData();
   },
-  computed:{
-    loggedIn(){
+  computed: {
+    loggedIn() {
       return authData.loggedIn;
     }
   }
@@ -104,5 +119,13 @@ export default {
 
 .checkOutButton:active {
   background-color: cornflowerblue;
+}
+
+.catalogDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  flex-wrap: wrap;
+  width: 100%;
 }
 </style>

@@ -51,6 +51,8 @@ export default {
                 }else{
                     authData.loggedIn=false;
                 }
+                alert("Login Successful!");
+                this.$router.push("/catalog");
 
             }).catch((error) => {
                 try {

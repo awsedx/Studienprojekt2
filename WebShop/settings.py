@@ -88,6 +88,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 

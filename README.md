@@ -1,8 +1,19 @@
 # Studienprojekt2
-### how 2 run
+### how to run
+Backend: 
+```
 python venv venv
+```
+```
 venv/Scripts/activate
+```
+```
 python manage.py runserver
+```
 
 install necessarry packages with:
-pip install [Package Name]
+```
+pip install PACKAGE_NAME
+```
+
+Frontend: See readme inside frontend folder
